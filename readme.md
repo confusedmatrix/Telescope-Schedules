@@ -27,56 +27,37 @@
 
 **Types**: 		Ground-based / Space-based
 **Wavelengths**: 	Gamma / X-ray / UV / Visible / Infrared / Microwave / Radio 
-**Specialist**: 	Particle detection / Gravitational wave detection
 
 ###SPACE-BASED
 
 ####Gamma
-- AGILE			ISA
-- Fermi (Gamma)		NASA
-- INTEGRAL		ESA
-- Swift (Gamma)		NASA
+- Fermi				NASA		http://fermi.gsfc.nasa.gov/ssc/observations/timeline/posting/ao5/
+- INTEGRAL			ESA 		http://integral.esac.esa.int/isocweb/schedule.html?action=intro
+- Swift (Gamma)		NASA		https://www.swift.psu.edu/operations/obsSchedule.php?d=2013-04-16&a=0
 
 ####X-ray
-- AGILE			ISA
-- Chandra		NASA
-- HETE 2		NASA			
-- INTEGRAL (X-ray)	ESA
-- NuSTAR		NASA
-- ASTRO-E2 (Suzaku)	JAXA/NASA
-- Swift (X-ray)		NASA
-- XMM-Newton		ESA
+- Chandra			NASA		http://cxc.harvard.edu/target_lists/stscheds/index.html
+- INTEGRAL (X-ray)	ESA 		http://integral.esac.esa.int/isocweb/schedule.html?action=intro
+- NuSTAR			NASA		http://www.srl.caltech.edu/NuSTAR_Public/NuSTAROperationSite/Download.php?file=sr-schedule.txt 
+- ASTRO-E2 (Suzaku)	JAXA/NASA	http://www.astro.isas.ac.jp/suzaku/schedule/shortterm/
+- Swift (X-ray)		NASA		https://www.swift.psu.edu/operations/obsSchedule.php?d=2013-04-16&a=0
+- XMM-Newton		ESA			http://xmm2.esac.esa.int/external/xmm_sched/sched_obs_srch_frame.shtml
 
 ####UV
-- GALEX			NASA
-- HST (UV)		NASA/ESA
-- Swift (UV)		NASA
+- HST (UV)			NASA/ESA  	http://www.stsci.edu/~inr/thisweek1/thisweekonhst.html
+- Swift (UV)		NASA		https://www.swift.psu.edu/operations/obsSchedule.php?d=2013-04-16&a=0
 
 ####Visible
-- COROT			CNES/ESA
-- HST (Visible)		NASA
-- Kepler		NASA
-- MOST			CSA
-- Swift (Visible)	NASA
+- HST (Visible)		NASA		http://www.stsci.edu/~inr/thisweek1/thisweekonhst.html
+- Swift (Visible)	NASA		https://www.swift.psu.edu/operations/obsSchedule.php?d=2013-04-16&a=0
 
 ####Infrared
-- Herschel		NASA/ESA	http://herschel.esac.esa.int/observing/ScheduleReport.html
-- Spitzer		NASA		http://ssc.spitzer.caltech.edu/warmmission/scheduling/observinglogs/plan/alltogether.txt
+- Herschel			NASA/ESA	http://herschel.esac.esa.int/observing/ScheduleReport.html
+- Spitzer			NASA		http://ssc.spitzer.caltech.edu/warmmission/scheduling/observinglogs/plan/alltogether.txt
 
 ####Microwave
-- Odin			SSC
-- Planck		ESA
 
 ####Radio
-- RadioAstron		ASC LPI
-
-####Particle detection
-- AMS-02		NASA
-- IBEX			NASA
-- PAMELA		ISA/INFN/RSA/DLR/SNSB
-
-####Gravitational wave detection
-- None as yet
 
 
 ###GROUND-BASED
@@ -94,7 +75,3 @@
 ####Microwave
 
 ####Radio
-
-####Particle detection
-
-####Gravitational wave detection
