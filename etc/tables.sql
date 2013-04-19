@@ -20,6 +20,36 @@ CREATE TABLE `sessions` (
   PRIMARY KEY (`session_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+LOCK TABLES `sessions` WRITE;
+/*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
+
+INSERT INTO `sessions` (`session_id`, `session_data`, `session_ip`, `session_timestamp`)
+VALUES
+  ('af74ovr6041qadttpi97la6191','','::1',1366384240),
+  ('jkb4e2dqk78hvusf6n6256l663','','::1',1366383357),
+  ('4n312gehjhnivd5oh5m3oofhh5','','::1',1366383365),
+  ('dvuviul2160nailhvaotcdj894','','::1',1366383415),
+  ('0fjq23a363tdkslm28vqrgq4r4','','::1',1366383418),
+  ('ouk6r4lopl6foa16rhjhdtjpf1','','::1',1366383421),
+  ('v19dov6t1gd1go9c6i14omkkt1','','::1',1366383455),
+  ('55jdm3pgi6piqtmahpv9kqr955','','::1',1366383495),
+  ('040q4ba5pm0g1p9ooq4l95ogh1','','::1',1366383510),
+  ('6uosik54ajr4m1cscodjdo8kg1','','::1',1366383542),
+  ('a616kmvg63dgagmbh8lo3dbkn6','','::1',1366383565),
+  ('77k9hsq97nu94m3je2bpoobhh1','','::1',1366383572),
+  ('bf4a1kmqq33hklaspr1o5fvdh3','','::1',1366383612),
+  ('t426m112ljbb7pktm6pgn8tj51','','::1',1366383659),
+  ('cvnb9dnp962qunldg74t8tclq0','','::1',1366383806),
+  ('0q4n7c6g3tu5gt6i8r0hkg9jo3','','::1',1366383935),
+  ('su09mj398e17jnk827f2dg4st7','','::1',1366383977),
+  ('k0g9dllmrm4sl6tj15f9tmto17','','::1',1366384091),
+  ('nqmhe63hni3eah7fa41j0uf1d0','','::1',1366384111),
+  ('ut2to5kqbf91730hgao5e2g004','','::1',1366384204),
+  ('tg6jac1ncv24qsgp27iae1mos6','','::1',1366384212),
+  ('v69n2caj6kikuhf4qrcb3u8l61','','::1',1366384241);
+
+/*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table telescope_events
@@ -55,6 +85,7 @@ CREATE TABLE `telescopes` (
   `type` varchar(8) DEFAULT NULL,
   `wavelengths` varchar(32) DEFAULT NULL,
   `url` varchar(128) DEFAULT NULL,
+  `class_name` varchar(64) DEFAULT NULL,
   `last_batch` varchar(16) DEFAULT NULL,
   `status` int(1) DEFAULT NULL,
   `timestamp` int(11) DEFAULT NULL,
@@ -64,18 +95,18 @@ CREATE TABLE `telescopes` (
 LOCK TABLES `telescopes` WRITE;
 /*!40000 ALTER TABLE `telescopes` DISABLE KEYS */;
 
-INSERT INTO `telescopes` (`id`, `name`, `agency`, `type`, `wavelengths`, `url`, `last_batch`, `status`, `timestamp`)
+INSERT INTO `telescopes` (`id`, `name`, `agency`, `type`, `wavelengths`, `url`, `class_name`, `last_batch`, `status`, `timestamp`)
 VALUES
-	(1,'Fermi','NASA','space','gamma','http://fermi.gsfc.nasa.gov/',NULL,1,0),
-	(2,'INTEGRAL','ESA','space','gamma,x-ray','http://sci.esa.int/integral/',NULL,1,0),
-	(3,'Swift','NASA','space','gamma,x-ray,uv,visible','http://swift.gsfc.nasa.gov/',NULL,1,0),
-	(4,'Chandra','NASA','space','x-ray','http://chandra.harvard.edu/',NULL,1,0),
-	(5,'NuStar','NASA','space','x-ray','http://www.nustar.caltech.edu/',NULL,1,0),
-	(6,'Suzaku','JAXA/NASA','space','x-ray','http://www.astro.isas.jaxa.jp/suzaku/',NULL,1,0),
-	(7,'XMM-Newton','ESA','space','x-ray','http://xmm.esac.esa.int/',NULL,1,0),
-	(8,'Hubble','NASA/ESA','space','uv,visible','http://www.spacetelescope.org/',NULL,1,0),
-	(9,'Herschel','NASA/ESA','space','infrared','http://herschel.esac.esa.int/',NULL,1,0),
-	(10,'Spitzer','NASA','space','infrared','http://www.spitzer.caltech.edu/',NULL,1,0);
+  (1,'Fermi','NASA','space','gamma','http://fermi.gsfc.nasa.gov/','FermiTelescope',NULL,1,0),
+  (2,'INTEGRAL','ESA','space','gamma,x-ray','http://sci.esa.int/integral/','INTEGRALTelescope',NULL,1,0),
+  (3,'Swift','NASA','space','gamma,x-ray,uv,visible','http://swift.gsfc.nasa.gov/','SwiftTelescope',NULL,1,0),
+  (4,'Chandra','NASA','space','x-ray','http://chandra.harvard.edu/','ChandraTelescope',NULL,1,0),
+  (5,'NuStar','NASA','space','x-ray','http://www.nustar.caltech.edu/','NuStarTelescope',NULL,1,0),
+  (6,'Suzaku','JAXA/NASA','space','x-ray','http://www.astro.isas.jaxa.jp/suzaku/','SuzukuTelescope',NULL,1,0),
+  (7,'XMM-Newton','ESA','space','x-ray','http://xmm.esac.esa.int/','XMMNestonTelescope',NULL,1,0),
+  (8,'Hubble','NASA/ESA','space','uv,visible','http://www.spacetelescope.org/','HubbleTelescope',NULL,1,0),
+  (9,'Herschel','NASA/ESA','space','infrared','http://herschel.esac.esa.int/','HerschelTelescope',NULL,1,0),
+  (10,'Spitzer','NASA','space','infrared','http://www.spitzer.caltech.edu/','SpitzerTelescope',NULL,1,0);
 
 /*!40000 ALTER TABLE `telescopes` ENABLE KEYS */;
 UNLOCK TABLES;
