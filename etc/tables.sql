@@ -25,7 +25,7 @@ LOCK TABLES `sessions` WRITE;
 
 INSERT INTO `sessions` (`session_id`, `session_data`, `session_ip`, `session_timestamp`)
 VALUES
-  ('af74ovr6041qadttpi97la6191','','::1',1366384240),
+  ('af74ovr6041qadttpi97la6191','','::1',1366387821),
   ('jkb4e2dqk78hvusf6n6256l663','','::1',1366383357),
   ('4n312gehjhnivd5oh5m3oofhh5','','::1',1366383365),
   ('dvuviul2160nailhvaotcdj894','','::1',1366383415),
@@ -46,7 +46,18 @@ VALUES
   ('nqmhe63hni3eah7fa41j0uf1d0','','::1',1366384111),
   ('ut2to5kqbf91730hgao5e2g004','','::1',1366384204),
   ('tg6jac1ncv24qsgp27iae1mos6','','::1',1366384212),
-  ('v69n2caj6kikuhf4qrcb3u8l61','','::1',1366384241);
+  ('v69n2caj6kikuhf4qrcb3u8l61','','::1',1366384241),
+  ('kitf04g6bd80q7qffr8i9ck8s6','','::1',1366384866),
+  ('0au0c99e87fq5c5g8seia0lg84','','::1',1366385479),
+  ('j7f2frrm3q71gl5r7fdq4sqh71','','::1',1366386109),
+  ('qndl3u3faep3e1gpge7m0kmh71','','::1',1366386357),
+  ('kknbskupuahb3ounpenbc4qba3','','::1',1366386414),
+  ('tufvmf0s3p9tsqpaqtkvgc80v1','','::1',1366386563),
+  ('lf27pq16r12aesva1baf0m8pd6','','::1',1366386631),
+  ('bkbf8fr2n0trhhre49gs7lvic3','','::1',1366387562),
+  ('1lgb8vovsf02965vfpf4io6ki2','','::1',1366387656),
+  ('o6u8f3d9d83n3k5ggiddmtnsn2','','::1',1366387806),
+  ('iquttncrgkbf5769k77avr5cf5','','::1',1366387822);
 
 /*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -103,7 +114,7 @@ VALUES
   (4,'Chandra','NASA','space','x-ray','http://chandra.harvard.edu/','ChandraTelescope',NULL,1,0),
   (5,'NuStar','NASA','space','x-ray','http://www.nustar.caltech.edu/','NuStarTelescope',NULL,1,0),
   (6,'Suzaku','JAXA/NASA','space','x-ray','http://www.astro.isas.jaxa.jp/suzaku/','SuzukuTelescope',NULL,1,0),
-  (7,'XMM-Newton','ESA','space','x-ray','http://xmm.esac.esa.int/','XMMNestonTelescope',NULL,1,0),
+  (7,'XMM-Newton','ESA','space','x-ray','http://xmm.esac.esa.int/','XMMNewtonTelescope',NULL,1,0),
   (8,'Hubble','NASA/ESA','space','uv,visible','http://www.spacetelescope.org/','HubbleTelescope',NULL,1,0),
   (9,'Herschel','NASA/ESA','space','infrared','http://herschel.esac.esa.int/','HerschelTelescope',NULL,1,0),
   (10,'Spitzer','NASA','space','infrared','http://www.spitzer.caltech.edu/','SpitzerTelescope',NULL,1,0);

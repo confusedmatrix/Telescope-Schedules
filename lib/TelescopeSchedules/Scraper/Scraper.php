@@ -35,9 +35,9 @@ class Scraper {
 
     }
 
-    public function match($regex) {
+    public function match($regex, $data=false) {
 
-        preg_match($regex, $this->data, $matches);
+        preg_match($regex, ($data ? $data : $this->data), $matches);
         return !empty($matches[0]) ? $matches[0] : '';
         
 
