@@ -14,7 +14,7 @@ define('PAGE_CACHE_DIR', TMP_DIR . 'page-cache/');
 define('FRAGMENT_CACHE_DIR', TMP_DIR . 'fragment-cache/');
 
 // DEBUG
-define('DEBUG', false);
+define('DEBUG', true);
 define('LOG_TYPE', 'output'); // options are 'output', 'file' or 'none';
 
 ?>

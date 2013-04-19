@@ -5,10 +5,10 @@ $config = array(
     'base'     => '/',
     'baseurl'  => '/',
     'database' => array(
-        'host' => 'localhost',
-        'name' => 'test',
-        'user' => 'root',
-        'pass' => ''
+        'host' => 'db_host',
+        'name' => 'db_name',
+        'user' => 'db_user',
+        'pass' => 'db_password'
     )
 
 );

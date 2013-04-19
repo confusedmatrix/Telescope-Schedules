@@ -3,6 +3,7 @@
 namespace Frontend\Controller;
 
 use Blueprint\Controller\Controller;
+use Frontend\Model;
 use Frontend\View;
 
 /**
@@ -38,6 +39,9 @@ class Testing extends Controller {
         $this->page = $this->container->get('page');
         
         $this->view->setContainer($this->container);
+
+        $this->testing_model = new Model\Testing();
+        $this->testing_model->setContainer($this->container);
     
     }
 
@@ -63,7 +67,7 @@ class Testing extends Controller {
      */
     public function testDataAction($id) {
         
-        $vars['content'] = 'Getting data for id:' . $id;
+        $vars['content'] = $this->testing_model->scrapeData($id);
         echo $this->view->render("index.php", $vars);
     
     }
