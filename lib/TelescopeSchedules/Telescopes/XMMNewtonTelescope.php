@@ -53,7 +53,33 @@ class XMMNewtonTelescope extends Telescope {
     public function getData() {
 
         $scraper = new Scraper($this->data_url);
-        return $scraper->scrape()->match('/(<TABLE BORDER="2".*?<\/TABLE>)/s');
+        $table = $scraper->scrape()->match('/(<TABLE BORDER="2".*?<\/TABLE>)/s');
+
+        $rows = $scraper->matchAll('/<TR.*?>\s*(<TD.*?)<\/TR>/s', $table);
+
+        $data = array();
+        $d = array();
+        $c = -1;
+        foreach($rows as $row) {
+            
+            if (strstr($row, '<TD COLSPAN="7" ALIGN="CENTER">')) {
+
+                $d = array();
+                $c++;
+
+                $data[$c][] = $scraper->match('/<FONT.*?>\s+(.*?)\s+<\/FONT>/s', $row);
+
+            } elseif (strstr($row, '<TD ALIGN="CENTER"> <B>')) {
+
+                $fields = $scraper->matchAll('/<B>\s+(.*?)\s+<\/B>/s', $row);
+                foreach($fields as $field)
+                    $data[$c][] = $field;
+
+            }
+
+        }
+        
+        return $data;
 
     }
 

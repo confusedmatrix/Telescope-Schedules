@@ -53,7 +53,23 @@ class SpitzerTelescope extends Telescope {
     public function getData() {
 
         $scraper = new Scraper($this->data_url);
-        return $scraper->scrape()->match('/(.*)/s');
+        $table = $scraper->scrape()->match('/(.*)/s');
+
+        $rows = explode("\n", $table);
+
+        $data = array();
+        foreach($rows as $k => $row) {
+            if ($k > 5) {
+                $row = preg_split('/\s+/', $row);
+                foreach ($row as $field)
+                    $data[$k][] = $field;
+            }
+        }
+
+        // N.B Be aware that if the target field has a space in it, it will be split accros multiple
+        // fields. Even worse than Chandra data!
+
+        return $data;
 
     }
 

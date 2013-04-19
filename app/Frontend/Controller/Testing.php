@@ -54,7 +54,7 @@ class Testing extends Controller {
     public function indexAction() {
         
         $vars['content'] = 'Test area';
-        echo $this->view->render("index.php", $vars);
+        echo $this->view->render("test.php", $vars);
     
     }
 
@@ -68,7 +68,7 @@ class Testing extends Controller {
     public function testDataAction($id) {
         
         $vars['content'] = $this->testing_model->scrapeData($id);
-        echo $this->view->render("index.php", $vars);
+        echo $this->view->render("test.php", $vars);
     
     }
 

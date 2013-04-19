@@ -53,7 +53,23 @@ class ChandraTelescope extends Telescope {
     public function getData() {
 
         $scraper = new Scraper($this->data_url);
-        return $scraper->scrape()->match('/(<pre id="schedule">.*?<\/pre id="schedule">)/s');
+        $table = $scraper->scrape()->match('/(<pre id="schedule">.*?<\/pre id="schedule">)/s');
+
+        $rows = explode("\n", $table);
+
+        $data = array();
+        foreach($rows as $k => $row) {
+            if ($k > 3) {
+                $row = preg_split('/\s+(?!href|http|color)/', $row);
+                foreach ($row as $field)
+                    $data[$k][] = $field;
+            }
+        }
+
+        // N.B Be aware that if the target field has a space in it, it will be split accros multiple
+        // fields. Need to check if the field after it is start date field to be fix it
+
+        return $data;
 
     }
 

@@ -53,7 +53,16 @@ class INTEGRALTelescope extends Telescope {
     public function getData() {
 
         $scraper = new Scraper($this->data_url);
-        return $scraper->scrape()->match('/(.*)/s');
+        $table = $scraper->scrape()->match('/(.*)/s');
+
+        $rows = explode("\n", $table);
+
+        $data = array();
+        foreach($rows as $k => $row)
+            if ($k > 0)
+                $data[] = str_getcsv($row);
+
+        return $data;
 
     }
 

@@ -53,7 +53,16 @@ class SwiftTelescope extends Telescope {
     public function getData() {
 
         $scraper = new Scraper($this->data_url);
-        return $scraper->scrape()->match('/(<table class=\'ppst\'>.*?<\/table>)/s');
+        $table = $scraper->scrape()->match('/(<table class=\'ppst\'>.*?<\/table>)/s');
+
+        $rows = $scraper->matchAll('/<tr(.*?)<\/tr>/s', $table);
+
+        $data = array();
+        foreach($rows as $k => $row)
+            if ($k > 1)
+                $data[] = $scraper->matchAll('/<td.*?>&nbsp;(.*?)&nbsp;<\/td>/s', $row);
+
+        return $data;
 
     }
 

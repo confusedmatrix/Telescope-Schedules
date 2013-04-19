@@ -53,7 +53,23 @@ class NuStarTelescope extends Telescope {
     public function getData() {
 
         $scraper = new Scraper($this->data_url);
-        return $scraper->scrape()->match('/(.*)/s');
+        $table = $scraper->scrape()->match('/(.*)/s');
+
+        $rows = explode("\n", $table);
+
+        $data = array();
+        foreach($rows as $k => $row) {
+            if ($k > 12) {
+                $row = preg_split('/\s+/', $row);
+                foreach ($row as $field)
+                    $data[$k][] = $field;
+            }
+        }
+
+        // N.B Last field may be split across multiple fields if there is space involved
+        // Solution: concatenate 7th key onwards
+
+        return $data;
 
     }
 

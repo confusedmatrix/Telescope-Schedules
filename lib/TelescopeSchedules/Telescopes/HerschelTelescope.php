@@ -53,7 +53,15 @@ class HerschelTelescope extends Telescope {
     public function getData() {
 
         $scraper = new Scraper($this->data_url);
-        return $scraper->scrape()->match('/(<table.*?<\/table>)/s');
+        $table = $scraper->scrape()->match('/(<table.*?<\/table>)/s');
+
+        $rows = $scraper->matchAll('/<tr.*?>\s*(<td.*?)<\/tr>/s', $table);
+
+        $data = array();
+        foreach($rows as $row)
+            $data[] = $scraper->matchAll('/<td.*?>(.*?)<\/td>/s', $row);
+
+        return $data;
 
     }
 

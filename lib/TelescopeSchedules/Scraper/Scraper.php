@@ -38,8 +38,15 @@ class Scraper {
     public function match($regex, $data=false) {
 
         preg_match($regex, ($data ? $data : $this->data), $matches);
-        return !empty($matches[0]) ? $matches[0] : '';
+        return !empty($matches[1]) ? $matches[1] : '';
         
+
+    }
+
+    public function matchAll($regex, $data=false) {
+
+        preg_match_all($regex, ($data ? $data : $this->data), $matches);
+        return !empty($matches[1]) ? $matches[1] : '';
 
     }
 

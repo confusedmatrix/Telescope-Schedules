@@ -53,7 +53,16 @@ class SuzukuTelescope extends Telescope {
     public function getData() {
 
         $scraper = new Scraper($this->data_url);
-        return $scraper->scrape()->match('/(<TABLE.*?<\/TABLE>)/s');
+        $table = $scraper->scrape()->match('/(<TABLE.*?<\/TABLE>)/s');
+
+        $rows = $scraper->matchAll('/<TR>(.*?)<\/TR>/s', $table);
+
+        $data = array();
+        foreach($rows as $k => $row)
+            if ($k > 1)
+                $data[] = $scraper->matchAll('/<TD.*?>(.*?)<\/TD>/s', $row);
+
+        return $data;
 
     }
 
