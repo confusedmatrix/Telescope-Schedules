@@ -21,7 +21,7 @@ namespace TelescopeSchedules\Telescopes;
  * @author Christopher Briggs <chris@jooldesign.co.uk>
  */
 abstract class Telescope {
-	
+    
     /**
      * id
      *
@@ -40,9 +40,9 @@ abstract class Telescope {
      * @var mixed
      * @access protected
      */
-	private $data_url = '';
+    private $data_url = '';
 
-	/**
+    /**
      * container
      * 
      * @var mixed
@@ -87,9 +87,9 @@ abstract class Telescope {
      * @access public
      * @return string
      */
-	public function getData() {
+    public function getData() {
 
-	}
+    }
 
     /**
      * determineBatchId function.
@@ -111,8 +111,8 @@ abstract class Telescope {
      * @access public
      * @return void
      */
-	public function updateData() {
+    public function updateData() {
 
-	}
+    }
 
 }

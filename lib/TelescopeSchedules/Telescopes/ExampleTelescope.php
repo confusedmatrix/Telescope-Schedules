@@ -19,8 +19,8 @@ namespace TelescopeSchedules\Telescopes;
  * @author Christopher Briggs <chris@jooldesign.co.uk>
  */
 class ExampleTelescope extends Telescope {
-	
-	/**
+    
+    /**
      * id
      *
      * id of the telescope in the DB
@@ -38,7 +38,7 @@ class ExampleTelescope extends Telescope {
      * @var mixed
      * @access protected
      */
-	private $data_url = '';
+    private $data_url = '';
 
     /**
      * getData function.
@@ -48,9 +48,9 @@ class ExampleTelescope extends Telescope {
      * @access public
      * @return string
      */
-	public function getData() {
+    public function getData() {
 
-	}
+    }
 
     /**
      * determineBatchId function.
@@ -72,8 +72,8 @@ class ExampleTelescope extends Telescope {
      * @access public
      * @return void
      */
-	public function updateData() {
+    public function updateData() {
 
-	}
+    }
 
 }
