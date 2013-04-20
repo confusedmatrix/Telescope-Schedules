@@ -50,10 +50,11 @@ class NuStarTelescope extends Telescope {
      * @access public
      * @return string
      */
-    public function getData() {
+    public function getData($batch=false) {
 
         $scraper = new Scraper($this->data_url);
         $table = $scraper->scrape()->match('/(.*)/s');
+        $batch = $scraper->match('/Generated on: (.*?)\s/s');
 
         $rows = explode("\n", $table);
 
@@ -64,23 +65,20 @@ class NuStarTelescope extends Telescope {
                 
                 $d = preg_split('/\s+/', $row, 8);
                 $data[] = array(
-                    $this->id,
-                    '2013-01-15', // batch number from page
-                    $d[2],
-                    $d[3],
-                    $this->dateToTimestamp($d[0]),
-                    $this->dateToTimestamp($d[1]),
-                    $d[4],
-                    $d[5],
-                    $d[7]
+                    'telescope_id'  => $this->id,
+                    'batch'         => $batch,
+                    'obs_id'        => $d[2],
+                    'obs_target'    => $d[3],
+                    'start'         => $this->dateToTimestamp($d[0]),
+                    'end'           => $this->dateToTimestamp($d[1]),
+                    'obs_ra'        => $d[4],
+                    'obs_decl'      => $d[5],
+                    'notes'         => $d[7]
                 );
 
             }
 
         }
-
-        // N.B Last field may be split across multiple fields if there is space involved
-        // Solution: concatenate 7th key onwards
 
         return $data;
 
@@ -95,6 +93,9 @@ class NuStarTelescope extends Telescope {
      * @return string
      */
     public function determineLastBatchId() {
+
+        $scraper = new Scraper($this->data_url);
+        return $scraper->scrape()->match('/Generated on: (.*?)\s/s');
 
     }
 
