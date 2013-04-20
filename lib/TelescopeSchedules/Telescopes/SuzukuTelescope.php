@@ -40,7 +40,7 @@ class SuzukuTelescope extends Telescope {
      * @var mixed
      * @access protected
      */
-    private $data_url = 'http://www.astro.isas.ac.jp/suzaku/schedule/shortterm/html/shortterm_2013_0422.html';
+    private $data_url = 'http://www.astro.isas.ac.jp/suzaku/schedule/shortterm/html/shortterm_{0}.html';
 
     /**
      * getData function.
@@ -50,7 +50,9 @@ class SuzukuTelescope extends Telescope {
      * @access public
      * @return string
      */
-    public function getData() {
+    public function getData($batch=false) {
+
+        $this->data_url = str_replace('{0}', $this->determineLastBatchId(), $this->data_url);
 
         $scraper = new Scraper($this->data_url);
         $table = $scraper->scrape()->match('/(<TABLE.*?<\/TABLE>)/s');
@@ -64,15 +66,15 @@ class SuzukuTelescope extends Telescope {
                 
                 $d = $scraper->matchAll('/<TD.*?>(.*?)<\/TD>/s', $row);
                 $data[] = array(
-                    $this->id,
-                    '2013_0422', // batch number from url
-                    '', // no obs_id
-                    strip_tags($d[0]),
-                    $this->dateToTimestamp($d[6]),
-                    '', // don't know end time
-                    $d[2],
-                    $d[3],
-                    '' // no notes
+                    'telescope_id'  => $this->id,
+                    'batch'         => '2013_0422', // batch number from url
+                    'obs_id'        => '', // no obs_id
+                    'obs_target'    => strip_tags($d[0]),
+                    'start'         => $this->dateToTimestamp($d[6]),
+                    'end'           => '', // don't know end time
+                    'obs_ra'        => $d[2],
+                    'obs_decl'      => $d[3],
+                    'notes'         => '' // no notes
                 );
 
             }
@@ -92,6 +94,10 @@ class SuzukuTelescope extends Telescope {
      * @return string
      */
     public function determineLastBatchId() {
+
+        $url = 'http://www.astro.isas.ac.jp/suzaku/schedule/shortterm/';
+        $scraper = new Scraper($url);
+        return $scraper->scrape()->match('/<A HREF="html\/shortterm_(.*?)\.html/s');
 
     }
 
