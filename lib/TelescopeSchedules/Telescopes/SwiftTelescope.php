@@ -40,7 +40,7 @@ class SwiftTelescope extends Telescope {
      * @var mixed
      * @access protected
      */
-    private $data_url = 'https://www.swift.psu.edu/operations/obsSchedule.php?d=2013-04-19&a=0';
+    private $data_url = 'https://www.swift.psu.edu/operations/obsSchedule.php?d={0}&a=0';
 
     /**
      * getData function.
@@ -48,34 +48,47 @@ class SwiftTelescope extends Telescope {
      * Reurns requested page from data_url
      * 
      * @access public
+     * @param batch
      * @return string
      */
-    public function getData() {
+    public function getData($batch) {
 
-        $scraper = new Scraper($this->data_url);
-        $table = $scraper->scrape()->match('/(<table class=\'ppst\'>.*?<\/table>)/s');
-
-        $rows = $scraper->matchAll('/<tr(.*?)<\/tr>/s', $table);
+        $batch = \DateTime::createFromFormat('Y-m-d', $batch, new \DateTimeZone('UTC'));
+        $last_batch = $this->determineLastBatchId();
+        $di = new \DateInterval('P1D');
 
         $data = array();
-        foreach($rows as $k => $row) {
-            
-            if ($k > 1) {
+        while ($batch->format('Y-m-d') <= $last_batch) {
 
-                $d = $scraper->matchAll('/<td.*?>&nbsp;(.*?)&nbsp;<\/td>/s', $row);
-                $data[] = array(
-                    $this->id,
-                    '2013-04-19', //batch number is the date
-                    '', // no obs_id
-                    $d[4],
-                    $this->dateToTimestamp($d[0]),
-                    $this->dateToTimestamp($d[1]),
-                    $d[5],
-                    $d[6],
-                    '' // no notes
-                );
+            $this->data_url = str_replace('{0}', $batch->format('Y-m-d'), $this->data_url);
+
+            $scraper = new Scraper($this->data_url);
+            $table = $scraper->scrape()->match('/(<table class=\'ppst\'>.*?<\/table>)/s');
+
+            $rows = $scraper->matchAll('/<tr(.*?)<\/tr>/s', $table);
+
+            foreach($rows as $k => $row) {
+                
+                if ($k > 1) {
+
+                    $d = $scraper->matchAll('/<td.*?>&nbsp;(.*?)&nbsp;<\/td>/s', $row);
+                    $data[] = array(
+                        'telescope_id'  => $this->id,
+                        'batch'         => $batch->format('Y-m-d'),
+                        'obs_id'        => '', // no obs_id
+                        'obs_target'    => $d[4],
+                        'start'         => $this->dateToTimestamp($d[0]),
+                        'end'           => $this->dateToTimestamp($d[1]),
+                        'obs_ra'        => $d[5],
+                        'obs_decl'      => $d[6],
+                        'notes'         => '' // no notes
+                    );
+
+                }
 
             }
+
+            $batch->add($di);
 
         }
 
@@ -92,6 +105,8 @@ class SwiftTelescope extends Telescope {
      * @return string
      */
     public function determineLastBatchId() {
+
+        return date('Y-m-d', time());
 
     }
 

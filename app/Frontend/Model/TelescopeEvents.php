@@ -5,11 +5,11 @@ namespace Frontend\Model;
 use Blueprint\Model\Model;
 
 /**
- * Telescopes class.
+ * TelescopeEvents class.
  * 
  * @extends Model
  */
-class Telescopes extends Model {
+class TelescopeEvents extends Model {
 
     /**
      * table
@@ -17,7 +17,7 @@ class Telescopes extends Model {
      * @var string
      * @access public
      */
-    public $table = 'telescopes';
+    public $table = 'telescope_events';
     
     /**
      * primary_key
@@ -93,6 +93,19 @@ class Telescopes extends Model {
         $rows = $this->database->fetchRows($options);
             
         return $rows;
+    
+    }
+
+    /**
+     * add function.
+     * 
+     * @access public
+     * @param data
+     * @return void
+     */
+    public function add($data) {
+    
+        $this->database->insert($this->table, $data);
     
     }
     

@@ -48,9 +48,10 @@ class FermiTelescope extends Telescope {
      * Reurns requested page from data_url
      * 
      * @access public
+     * @param batch
      * @return string
      */
-    public function getData() {
+    public function getData($batch=false) {
 
         $scraper = new Scraper($this->data_url);
         $table = $scraper->scrape()->match('/(<table id="timelineTable.*?<\/table>)/s');
@@ -62,15 +63,15 @@ class FermiTelescope extends Telescope {
             
             $d = $scraper->matchAll('/<td.*?>(.*?)<\/td>/s', $row);
             $data[] = array(
-                $this->id,
-                $d[2],
-                $d[1],
-                $d[10],
-                $this->dateToTimestamp($d[3]),
-                $this->dateToTimestamp($d[4]),
-                $d[6],
-                $d[7],
-                $d[12]
+                'telescope_id'  => $this->id,
+                'batch'         => $d[2],
+                'obs_id'        => $d[1],
+                'obs_target'    => $d[10],
+                'start'         => $this->dateToTimestamp($d[3]),
+                'end'           => $this->dateToTimestamp($d[4]),
+                'obs_ra'        => $d[6],
+                'obs_decl'      => $d[7],
+                'notes'         => $d[12]
             );
 
         }
@@ -92,8 +93,8 @@ class FermiTelescope extends Telescope {
         $data = $this->getData();
         $batch = 0;
         foreach ($data as $d)
-            if ($d[1] > $batch)
-                $batch = $d[1];
+            if ($d['batch'] > $batch)
+                $batch = $d['batch'];
 
         return $batch;
 

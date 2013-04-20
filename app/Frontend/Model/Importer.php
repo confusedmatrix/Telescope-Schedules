@@ -24,6 +24,9 @@ class Importer extends Model {
 
         $this->telescopes = new Telescopes();
         $this->telescopes->setContainer($this->container);
+
+        $this->telescope_events = new TelescopeEvents();
+        $this->telescope_events->setContainer($this->container);
     
     }
 
@@ -43,9 +46,12 @@ class Importer extends Model {
         $class_name = 'TelescopeSchedules\\Telescopes\\' . $telescope['class_name'];
         $t = new $class_name;
 
-        if ($t->getData()) return 'IMPORT COMPLETE';
+        $data = $t->getData($telescope['last_batch']);
 
-        return 'IMPORT ERROR';
+        foreach ($data as $d)
+            $this->telescope_events->add($d);
+
+        return 'IMPORT COMPLETE';
 
     }
 

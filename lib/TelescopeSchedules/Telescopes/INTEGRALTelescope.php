@@ -40,7 +40,7 @@ class INTEGRALTelescope extends Telescope {
      * @var mixed
      * @access protected
      */
-    private $data_url = 'http://integral.esac.esa.int/isocweb/schedule.html?action=schedule&startRevno=1284&endRevno=1284&reverseSort=&format=csv';
+    private $data_url = 'http://integral.esac.esa.int/isocweb/schedule.html?action=schedule&startRevno={0}&endRevno={1}&reverseSort=&format=csv';
 
     /**
      * getData function.
@@ -48,9 +48,12 @@ class INTEGRALTelescope extends Telescope {
      * Reurns requested page from data_url
      * 
      * @access public
+     * @param batch
      * @return string
      */
-    public function getData() {
+    public function getData($batch) {
+
+        $this->data_url = str_replace(array('{0}', '{1}'), array($batch, $this->determineLastBatchId()), $this->data_url);
 
         $scraper = new Scraper($this->data_url);
         $table = $scraper->scrape()->match('/(.*)/s');
@@ -64,15 +67,15 @@ class INTEGRALTelescope extends Telescope {
             
                 $d = str_getcsv($row);
                 $data[] = array(
-                    $this->id,
-                    $d[0],
-                    $d[10],
-                    $d[4],
-                    $this->dateToTimestamp($d[1]),
-                    $this->dateToTimestamp($d[2]),
-                    $d[5],
-                    $d[6],
-                    'http://integral.esac.esa.int/isocweb/schedule.html?action=proposal&id=' . $d[9]
+                    'telescope_id'  => $this->id,
+                    'batch'         => $d[0],
+                    'obs_id'        => $d[10],
+                    'obs_target'    => $d[4],
+                    'start'         => $this->dateToTimestamp($d[1]),
+                    'end'           => $this->dateToTimestamp($d[2]),
+                    'obs_ra'        => $d[5],
+                    'obs_decl'      => $d[6],
+                    'notes'         => 'http://integral.esac.esa.int/isocweb/schedule.html?action=proposal&id=' . $d[9]
                 );
 
             }
@@ -92,6 +95,10 @@ class INTEGRALTelescope extends Telescope {
      * @return string
      */
     public function determineLastBatchId() {
+
+        $url = 'http://integral.esac.esa.int/isocweb/schedule.html?action=schedule';
+        $scraper = new Scraper($url);
+        return $scraper->scrape()->match('/Schedule for current revolution \((.*?)\)/s');
 
     }
 

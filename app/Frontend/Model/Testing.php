@@ -36,6 +36,7 @@ class Testing extends Model {
         $class_name = 'TelescopeSchedules\\Telescopes\\' . $telescope['class_name'];
         $t = new $class_name;
 
+        //return $t->determineLastBatchId();
         return $t->getData();
 
     }
