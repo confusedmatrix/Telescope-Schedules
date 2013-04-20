@@ -59,11 +59,24 @@ class NuStarTelescope extends Telescope {
 
         $data = array();
         foreach($rows as $k => $row) {
-            if ($k > 12) {
-                $row = preg_split('/\s+/', $row);
-                foreach ($row as $field)
-                    $data[$k][] = $field;
+            
+            if ($k > 12 && $k < count($rows)-1) {
+                
+                $d = preg_split('/\s+/', $row, 8);
+                $data[] = array(
+                    $this->id,
+                    '2013-01-15', // batch number from page
+                    $d[2],
+                    $d[3],
+                    $this->dateToTimestamp($d[0]),
+                    $this->dateToTimestamp($d[1]),
+                    $d[4],
+                    $d[5],
+                    $d[7]
+                );
+
             }
+
         }
 
         // N.B Last field may be split across multiple fields if there is space involved
@@ -94,6 +107,13 @@ class NuStarTelescope extends Telescope {
      * @return void
      */
     public function updateData() {
+
+    }
+
+    private function dateToTimestamp($date) {
+
+        $date = \DateTime::createFromFormat('Y:z:H:i:s', $date, new \DateTimeZone('UTC'));
+        return !empty($date) ? $date->format('U') : 'date error';
 
     }
 

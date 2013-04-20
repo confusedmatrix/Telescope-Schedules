@@ -59,11 +59,24 @@ class ChandraTelescope extends Telescope {
 
         $data = array();
         foreach($rows as $k => $row) {
-            if ($k > 3) {
-                $row = preg_split('/\s+(?!href|http|color)/', $row);
-                foreach ($row as $field)
-                    $data[$k][] = $field;
+            
+            if ($k > 3 && $k < count($rows)-3) {
+                
+                $d = preg_split('/\s+(?!href|http|color)/', $row);
+                $data[] = array(
+                    $this->id,
+                    'APR2213A', // batch number from page
+                    strip_tags($d[2]),
+                    $d[3],
+                    $this->dateToTimestamp($d[5]),
+                    $this->dateToTimestamp($d[5]) + $d[6],
+                    $d[9],
+                    $d[10],
+                    '' // no notes
+                );
+
             }
+
         }
 
         // N.B Be aware that if the target field has a space in it, it will be split accros multiple
@@ -94,6 +107,13 @@ class ChandraTelescope extends Telescope {
      * @return void
      */
     public function updateData() {
+
+    }
+
+    private function dateToTimestamp($date) {
+
+        $date = \DateTime::createFromFormat('Y:z:H:i:s.u', $date, new \DateTimeZone('UTC'));
+        return !empty($date) ? $date->format('U') : 'date error';
 
     }
 

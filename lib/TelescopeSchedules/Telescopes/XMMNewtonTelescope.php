@@ -78,6 +78,21 @@ class XMMNewtonTelescope extends Telescope {
             }
 
         }
+
+        foreach ($data as $k => $d) {
+
+            $data[$k] = array(
+                $this->id,
+                '2455', // batch number from page
+                $d[0],
+                $d[1],
+                $this->dateToTimestamp($d[6]),
+                $this->dateToTimestamp($d[7]),
+                $d[2],
+                $d[3]
+            );
+
+        }
         
         return $data;
 
@@ -104,6 +119,13 @@ class XMMNewtonTelescope extends Telescope {
      * @return void
      */
     public function updateData() {
+
+    }
+
+    private function dateToTimestamp($date) {
+
+        $date = \DateTime::createFromFormat('Y-m-d@H:i:s', $date, new \DateTimeZone('UTC'));
+        return !empty($date) ? $date->format('U') : 'date error';
 
     }
 

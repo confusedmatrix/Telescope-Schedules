@@ -58,9 +58,26 @@ class SwiftTelescope extends Telescope {
         $rows = $scraper->matchAll('/<tr(.*?)<\/tr>/s', $table);
 
         $data = array();
-        foreach($rows as $k => $row)
-            if ($k > 1)
-                $data[] = $scraper->matchAll('/<td.*?>&nbsp;(.*?)&nbsp;<\/td>/s', $row);
+        foreach($rows as $k => $row) {
+            
+            if ($k > 1) {
+
+                $d = $scraper->matchAll('/<td.*?>&nbsp;(.*?)&nbsp;<\/td>/s', $row);
+                $data[] = array(
+                    $this->id,
+                    '2013-04-19', //batch number is the date
+                    '', // no obs_id
+                    $d[4],
+                    $this->dateToTimestamp($d[0]),
+                    $this->dateToTimestamp($d[1]),
+                    $d[5],
+                    $d[6],
+                    '' // no notes
+                );
+
+            }
+
+        }
 
         return $data;
 
@@ -87,6 +104,13 @@ class SwiftTelescope extends Telescope {
      * @return void
      */
     public function updateData() {
+
+    }
+
+    private function dateToTimestamp($date) {
+
+        $date = \DateTime::createFromFormat('Y-m-d H:i:s', $date, new \DateTimeZone('UTC'));
+        return $date->format('U');
 
     }
 

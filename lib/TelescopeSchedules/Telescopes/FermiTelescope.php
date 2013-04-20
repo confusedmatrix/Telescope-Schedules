@@ -58,8 +58,22 @@ class FermiTelescope extends Telescope {
         $rows = $scraper->matchAll('/<tr>\s*(<td.*?)<\/tr>/s', $table);
 
         $data = array();
-        foreach($rows as $row)
-            $data[] = $scraper->matchAll('/<td.*?>(.*?)<\/td>/s', $row);
+        foreach($rows as $row) {
+            
+            $d = $scraper->matchAll('/<td.*?>(.*?)<\/td>/s', $row);
+            $data[] = array(
+                $this->id,
+                $d[2],
+                $d[1],
+                $d[10],
+                $this->dateToTimestamp($d[3]),
+                $this->dateToTimestamp($d[4]),
+                $d[6],
+                $d[7],
+                $d[12]
+            );
+
+        }
 
         return $data;
 
@@ -86,6 +100,17 @@ class FermiTelescope extends Telescope {
      * @return void
      */
     public function updateData() {
+
+    }
+
+    private function dateToTimestamp($date) {
+
+        $p = explode('-', $date);
+        $t = explode(':', $p[2]);
+        $p[1] = $p[1] == '000' ? '0' : ltrim($p[1], '0');
+
+        $date = \DateTime::createFromFormat('Y-z-H:i:s', $p[0].'-'.$p[1].'-'.$t[0].':'.$t[1].':'.$t[2], new \DateTimeZone('UTC'));
+        return $date->format('U');
 
     }
 

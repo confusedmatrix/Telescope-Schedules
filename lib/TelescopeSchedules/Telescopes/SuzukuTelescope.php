@@ -58,9 +58,26 @@ class SuzukuTelescope extends Telescope {
         $rows = $scraper->matchAll('/<TR>(.*?)<\/TR>/s', $table);
 
         $data = array();
-        foreach($rows as $k => $row)
-            if ($k > 1)
-                $data[] = $scraper->matchAll('/<TD.*?>(.*?)<\/TD>/s', $row);
+        foreach($rows as $k => $row) {
+            
+            if ($k > 0) {
+                
+                $d = $scraper->matchAll('/<TD.*?>(.*?)<\/TD>/s', $row);
+                $data[] = array(
+                    $this->id,
+                    '2013_0422', // batch number from url
+                    '', // no obs_id
+                    strip_tags($d[0]),
+                    $this->dateToTimestamp($d[6]),
+                    '', // don't know end time
+                    $d[2],
+                    $d[3],
+                    '' // no notes
+                );
+
+            }
+
+        }
 
         return $data;
 
@@ -87,6 +104,13 @@ class SuzukuTelescope extends Telescope {
      * @return void
      */
     public function updateData() {
+
+    }
+
+    private function dateToTimestamp($date) {
+
+        $date = \DateTime::createFromFormat('Y m d H i s', $date, new \DateTimeZone('UTC'));
+        return !empty($date) ? $date->format('U') : 'date error';
 
     }
 

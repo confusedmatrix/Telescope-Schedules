@@ -58,9 +58,26 @@ class INTEGRALTelescope extends Telescope {
         $rows = explode("\n", $table);
 
         $data = array();
-        foreach($rows as $k => $row)
-            if ($k > 0)
-                $data[] = str_getcsv($row);
+        foreach($rows as $k => $row) {
+            
+            if ($k > 0 && $k < count($rows)-1) {
+            
+                $d = str_getcsv($row);
+                $data[] = array(
+                    $this->id,
+                    $d[0],
+                    $d[10],
+                    $d[4],
+                    $this->dateToTimestamp($d[1]),
+                    $this->dateToTimestamp($d[2]),
+                    $d[5],
+                    $d[6],
+                    'http://integral.esac.esa.int/isocweb/schedule.html?action=proposal&id=' . $d[9]
+                );
+
+            }
+
+        }
 
         return $data;
 
@@ -87,6 +104,13 @@ class INTEGRALTelescope extends Telescope {
      * @return void
      */
     public function updateData() {
+
+    }
+
+    private function dateToTimestamp($date) {
+
+        $date = \DateTime::createFromFormat('Y-m-d H:i:s.u', $date, new \DateTimeZone('UTC'));
+        return $date->format('U');
 
     }
 

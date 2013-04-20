@@ -58,8 +58,22 @@ class HerschelTelescope extends Telescope {
         $rows = $scraper->matchAll('/<tr.*?>\s*(<td.*?)<\/tr>/s', $table);
 
         $data = array();
-        foreach($rows as $row)
-            $data[] = $scraper->matchAll('/<td.*?>(.*?)<\/td>/s', $row);
+        foreach($rows as $row) {
+            
+            $d = $scraper->matchAll('/<td.*?>(.*?)<\/td>/s', $row);
+            $data[] = array(
+                $this->id,
+                $d[0],
+                $d[8],
+                $d[1],
+                $this->dateToTimestamp($d[7]),
+                $this->dateToTimestamp($d[7]) + $d[6],
+                $d[2],
+                $d[3],
+                '' // no notes
+            );
+
+        }
 
         return $data;
 
@@ -86,6 +100,13 @@ class HerschelTelescope extends Telescope {
      * @return void
      */
     public function updateData() {
+
+    }
+
+    private function dateToTimestamp($date) {
+
+        $date = \DateTime::createFromFormat('Y-m-d\TH:i:s\Z', $date, new \DateTimeZone('UTC'));
+        return !empty($date) ? $date->format('U') : 'date error';
 
     }
 
