@@ -84,29 +84,26 @@ class SwiftTelescope extends Telescope {
     }
 
     /**
-     * determineBatchId function.
+     * determineLastBatchId function.
      *
-     * Determines the batch last batch id from the data_url page
+     * Determines the last batch id from the data_url page
      * 
      * @access public
      * @return string
      */
-    public function determineBatchId() {
+    public function determineLastBatchId() {
 
     }
 
     /**
-     * updateData function.
+     * dateToTimestamp function.
      *
-     * Updates the telescope events data with new data from data_url page
+     * Converts date/time string to unix timestamp
      * 
-     * @access public
-     * @return void
+     * @access private
+     * @param date
+     * @return string
      */
-    public function updateData() {
-
-    }
-
     private function dateToTimestamp($date) {
 
         $date = \DateTime::createFromFormat('Y-m-d H:i:s', $date, new \DateTimeZone('UTC'));

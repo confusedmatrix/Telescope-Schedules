@@ -61,22 +61,6 @@ abstract class Telescope {
         
         $this->container = $container;
 
-        $this->database = $this->container->get('database');
-
-    }
-
-    /**
-     * getTelescope function.
-     *
-     * Returns telescope info from DB
-     * 
-     * @access public
-     * @return mixed
-     */
-    public function getTelescope() {
-
-        return $this->database->getRow($id);
-
     }
 
     /**
@@ -100,18 +84,6 @@ abstract class Telescope {
      * @return string
      */
     public function determineBatchId() {
-
-    }
-
-    /**
-     * updateData function.
-     *
-     * Updates the telescope events data with new data from data_url page
-     * 
-     * @access public
-     * @return void
-     */
-    public function updateData() {
 
     }
 

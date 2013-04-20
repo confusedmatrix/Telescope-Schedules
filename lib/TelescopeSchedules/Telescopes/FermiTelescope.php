@@ -80,29 +80,34 @@ class FermiTelescope extends Telescope {
     }
 
     /**
-     * determineBatchId function.
+     * determineLastBatchId function.
      *
-     * Determines the batch last batch id from the data_url page
+     * Determines the last batch id from the data_url page
      * 
      * @access public
      * @return string
      */
-    public function determineBatchId() {
+    public function determineLastBatchId() {
+
+        $data = $this->getData();
+        $batch = 0;
+        foreach ($data as $d)
+            if ($d[1] > $batch)
+                $batch = $d[1];
+
+        return $batch;
 
     }
 
     /**
-     * updateData function.
+     * dateToTimestamp function.
      *
-     * Updates the telescope events data with new data from data_url page
+     * Converts date/time string to unix timestamp
      * 
-     * @access public
-     * @return void
+     * @access private
+     * @param date
+     * @return string
      */
-    public function updateData() {
-
-    }
-
     private function dateToTimestamp($date) {
 
         $p = explode('-', $date);
