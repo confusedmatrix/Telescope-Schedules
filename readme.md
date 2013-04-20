@@ -5,21 +5,13 @@
 **Description**: Combine the past and future time schedules of satellites into a common calendar and make the information easily accessible. This can be done as an app or a website.
 
 ##TODO
-
-- Set up GIT repository on github
-- Use Blueprint PHP Framework for rapidly developing web application
-- Develop a database schema (MySQL) to hold telescope schedule data
-- Develop an interface from which to build a class for each telescope
-  - Get data from url
-  - Parse data and store in DB
-  - Think of a way of storing past/short-term/long-term observations
+- Parse data and store in DB
 - Develop a front-end representation of the data
   - Maybe use D3.js
   - Gantt style chart
   - Filter by telescope/wavelength/data range/observation etc
 - Other
   - Can we make this mobile friendly?
-- Identify major space-based telescopes & whether their schedules are available
 - Identify major ground-based telescopes & whether their schedules are available
 
 
