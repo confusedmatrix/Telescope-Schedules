@@ -104,9 +104,9 @@ $(document).ready(function() {
                           .attr('x', xPadding+1)
                           .attr('y', 0)
                           .attr('fill', function(d) { return colorScale(d.telescope_id); })
-                          .attr('height', function(d) { return yScale.rangeBand() - 1; })
-                          .attr('width', function(d) { return Math.abs((xScale(d.end) - xScale(d.start)) - 1); })
-                          .attr('transform', function(d) { return 'translate(' + xScale(d.start) + ',' + yScale(d.telescope_id) + ')'; });
+                          .attr('height', function(d) { return yScale.rangeBand() - 2; })
+                          .attr('width', function(d) { return Math.ceil(Math.abs((xScale(d.end) - xScale(d.start)) - 1)); })
+                          .attr('transform', function(d) { return 'translate(' + Math.ceil(xScale(d.start)) + ',' + yScale(d.telescope_id) + ')'; });
 
             // Actions
             bars.on("mouseover", function() {

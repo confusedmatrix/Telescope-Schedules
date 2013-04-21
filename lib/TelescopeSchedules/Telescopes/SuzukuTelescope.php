@@ -50,34 +50,44 @@ class SuzukuTelescope extends Telescope {
      * @access public
      * @return string
      */
-    public function getData($batch=false) {
+    public function getData($batch) {
 
-        $this->data_url = str_replace('{0}', $this->determineLastBatchId(), $this->data_url);
-
-        $scraper = new Scraper($this->data_url);
-        $table = $scraper->scrape()->match('/(<TABLE.*?<\/TABLE>)/s');
-
-        $rows = $scraper->matchAll('/<TR>(.*?)<\/TR>/s', $table);
+        $batch = \DateTime::createFromFormat('Y_md', $batch, new \DateTimeZone('UTC'));
+        $last_batch = $this->determineLastBatchId();
+        $di = new \DateInterval('P1D');
 
         $data = array();
-        foreach($rows as $k => $row) {
-            
-            if ($k > 0) {
+        while ($batch->format('Y_md') <= $last_batch) {
+
+            $data_url = str_replace('{0}', $this->determineLastBatchId(), $this->data_url);
+
+            $scraper = new Scraper($data_url);
+            $table = $scraper->scrape()->match('/<H3>Suzaku Shortterm Schedule (almost final)</H3>.*?(<TABLE.*?<\/TABLE>)/s');
+
+            $rows = $scraper->matchAll('/<TR>(.*?)<\/TR>/s', $table);
+
+            foreach($rows as $k => $row) {
                 
-                $d = $scraper->matchAll('/<TD.*?>(.*?)<\/TD>/s', $row);
-                $data[] = array(
-                    'telescope_id'  => $this->id,
-                    'batch'         => '2013_0422', // batch number from url
-                    'obs_id'        => '', // no obs_id
-                    'obs_target'    => strip_tags($d[0]),
-                    'start'         => $this->dateToTimestamp($d[6]),
-                    'end'           => '', // don't know end time
-                    'obs_ra'        => $d[2],
-                    'obs_decl'      => $d[3],
-                    'notes'         => '' // no notes
-                );
+                if ($k > 0) {
+                    
+                    $d = $scraper->matchAll('/<TD.*?>(.*?)<\/TD>/s', $row);
+                    $data[] = array(
+                        'telescope_id'  => $this->id,
+                        'batch'         => $batch->format('Y_md'),
+                        'obs_id'        => '', // no obs_id
+                        'obs_target'    => strip_tags($d[0]),
+                        'start'         => $this->dateToTimestamp($d[6]),
+                        'end'           => $this->dateToTimestamp($d[6]) + 60,
+                        'obs_ra'        => $d[2],
+                        'obs_decl'      => $d[3],
+                        'notes'         => '' // no notes
+                    );
+
+                }
 
             }
+
+            $batch->add($di);
 
         }
 

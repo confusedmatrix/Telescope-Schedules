@@ -60,9 +60,9 @@ class SwiftTelescope extends Telescope {
         $data = array();
         while ($batch->format('Y-m-d') <= $last_batch) {
 
-            $this->data_url = str_replace('{0}', $batch->format('Y-m-d'), $this->data_url);
+            $data_url = str_replace('{0}', $batch->format('Y-m-d'), $this->data_url);
 
-            $scraper = new Scraper($this->data_url);
+            $scraper = new Scraper($data_url);
             $table = $scraper->scrape()->match('/(<table class=\'ppst\'>.*?<\/table>)/s');
 
             $rows = $scraper->matchAll('/<tr(.*?)<\/tr>/s', $table);

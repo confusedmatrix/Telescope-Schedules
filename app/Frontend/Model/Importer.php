@@ -55,4 +55,22 @@ class Importer extends Model {
 
     }
 
+    /**
+     * importAll function.
+     * 
+     * @access public
+     * @param integer $id
+     * @return void
+     */
+    public function importAll($id) {
+
+        $ids = array(1,2,3,5,6,7,9);
+
+        foreach ($ids as $id)
+            $this->import($id);
+
+        return 'IMPORT COMPLETE';
+
+    }
+
 }

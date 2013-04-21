@@ -59,7 +59,7 @@ class Importer extends Controller {
     }
 
     /**
-     * testDataAction function.
+     * importAction function.
      * 
      * @access public
      * @param id integer
@@ -68,6 +68,19 @@ class Importer extends Controller {
     public function importAction($id) {
         
         $vars['content'] = $this->import_model->import($id);
+        echo $this->view->render("index.php", $vars);
+    
+    }
+
+    /**
+     * importAllAction function.
+     * 
+     * @access public
+     * @return void
+     */
+    public function importAllAction() {
+        
+        $vars['content'] = $this->import_model->importAll();
         echo $this->view->render("index.php", $vars);
     
     }
