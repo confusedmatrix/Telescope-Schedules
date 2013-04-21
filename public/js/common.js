@@ -16,7 +16,7 @@ $(document).ready(function() {
 
     function buildVisualisation(start, end) {
 
-        d3.json('/data/telescope-events', function(error, data) {
+        d3.json('/data/telescope-events/' + (start.getTime()/1000) + '/' + (end.getTime()/1000), function(error, data) {
 
             $('#vis').html('');
 
@@ -52,7 +52,8 @@ $(document).ready(function() {
                            .domain(telescopeIds)
                            .rangeRoundBands([0, height]);
 
-            var colorScale = d3.scale.category20c();
+            var colorScale = d3.scale.category20c()
+                               .domain(telescopeIds);
 
             var xAxis = d3.svg.axis()
                           .scale(xScale)

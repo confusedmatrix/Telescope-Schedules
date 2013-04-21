@@ -35,6 +35,15 @@ class DataFilterForm extends Form {
      * @return void
      */
     private function buildForm() {
+
+        /*$this->wavelength = new FormField('select', 'wavelength', 'Wavelength');
+        $this->wavelength->setAttr('id', 'wavelength');
+        $this->wavelength->setOption('all', 'All');
+        $this->wavelength->setOption('gamma', 'Gamma');
+        $this->wavelength->setOption('x-ray', 'X-ray');
+        $this->wavelength->setOption('uv', 'Ultra Violet');
+        $this->wavelength->setOption('visible', 'Visible');
+        $this->wavelength->setOption('infrared', 'Infrared');*/
     
         $this->start_date = new FormField('date', 'start_date', 'Start date');
         $this->start_date->setAttr('id', 'start_date');
