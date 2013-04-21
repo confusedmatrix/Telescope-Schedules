@@ -1,6 +1,6 @@
     <div id="footer">
       <div id="copyright">
-        <p>&copy; <?php echo date('Y'); ?></p>
+        <p>Built by <a href="http://www.jooldesign.co.uk">jooldesign</a> &copy; <?php echo date('Y'); ?></p>
       </div>
     </div>
 

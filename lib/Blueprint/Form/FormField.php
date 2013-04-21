@@ -48,6 +48,8 @@ class FormField {
         'select',
         'file',
         'image',
+        'date',
+        'email',
         'reset',
         'submit'
     
@@ -537,6 +539,11 @@ class FormField {
                 
                 $field .= $this->renderSubmitField();
                 break;
+
+            default:
+
+                $field .= $this->renderTextField();
+                break;                
         
         }
         

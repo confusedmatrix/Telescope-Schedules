@@ -4,6 +4,7 @@ namespace Frontend\Controller;
 
 use Blueprint\Controller\Controller;
 use Frontend\View;
+use Frontend\Form\Data\DataFilterForm;
 
 /**
  * Index class.
@@ -50,7 +51,11 @@ class Index extends Controller {
     public function indexAction() {
         
         $this->page->body_id = 'home';
-        echo $this->view->render("home.php");
+        $this->page->h1 = 'Telescope Schedules <small>Discover what the world\'s telescopes are observing...</small>';
+
+        $form = new DataFilterForm();
+        $vars['data_controls'] = $form->render();
+        echo $this->view->render('home.php', $vars);
     
     }
 

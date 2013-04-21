@@ -1,25 +1,64 @@
 body#home {
-	background-color: #000;
+	background: url('../img/bg.jpg');
 	color: #FFF;
+}
+
+#header {
+	border-bottom: none;
+	padding-bottom: 0;
+}
+body#home .page-header h1 {
+	font-family: 'Titillium Web';
+	font-weight: 700;
+	font-size: 50px;
+	color: #FFF;
+}
+body#home .page-header small {
+	font-family: 'Titillium Web';
+	font-weight: 400;
+}
+
+#data-controls {
+	margin-left: 100px;
+}
+#data-controls label {
+	color: #777;
+}
+#data-controls .control-group {
+	margin-right: 5px;
+	float: left;
+}
+
+#vis {
+	background: url('../img/vis-bg.png');
 }
 
 #info-pane {
 	width: 250px;
 	float: right;
-	border-left: 1px solid #444;
-	padding: 20px;
-	font-size: 12px;
+	padding: 83px 20px 20px 20px;
+	font-family: 'Titillium Web';
+	font-size: 16px;
+	color: #CCC;
+	line-height: 24px;
+}
+#info-pane strong {
+	color: #e5660d;
 }
 
-.axis path, .axis line {
-	fill: none;
-	stroke: #FFF;
-	shape-rendering: crispEdges;
-}
 .grid .tick {
     stroke: #444;
     opacity: 0.7;
 }
 .grid path {
       stroke-width: 0;
+}
+
+.note {
+	color: #555;
+}
+
+#footer {
+	padding: 20px 0;
+	clear: both;
 }

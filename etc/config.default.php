@@ -43,6 +43,7 @@ $config['defaults'] = array(
         'css'                 => array(
             'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css',
             $config['base'] . 'css/bootstrap.min.css',
+            'http://fonts.googleapis.com/css?family=Titillium+Web:400,700,900',
             $config['base'] . 'css/common.css'
         ),
         'js'                  => array(
