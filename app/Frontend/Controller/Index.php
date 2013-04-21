@@ -49,7 +49,7 @@ class Index extends Controller {
      */
     public function indexAction() {
         
-        $vars['content'] = 'Telescope schedules will appear here soon';
+        $vars['content'] = '';
         echo $this->view->render("index.php", $vars);
     
     }

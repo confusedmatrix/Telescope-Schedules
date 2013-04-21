@@ -47,7 +47,9 @@ $config['defaults'] = array(
         'js'                  => array(
             'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js',
             'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js',
-            $config['base'] . 'js/bootstrap.min.js'
+            $config['base'] . 'js/bootstrap.min.js',
+            $config['base'] . 'js/d3.min.js',
+            $config['base'] . 'js/common.js'
         )
     )
     
