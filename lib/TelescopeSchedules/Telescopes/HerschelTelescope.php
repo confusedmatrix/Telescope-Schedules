@@ -48,9 +48,10 @@ class HerschelTelescope extends Telescope {
      * Reurns requested page from data_url
      * 
      * @access public
+     * @param batch
      * @return string
      */
-    public function getData() {
+    public function getData($batch=false) {
 
         $scraper = new Scraper($this->data_url);
         $table = $scraper->scrape()->match('/(<table.*?<\/table>)/s');
@@ -62,15 +63,15 @@ class HerschelTelescope extends Telescope {
             
             $d = $scraper->matchAll('/<td.*?>(.*?)<\/td>/s', $row);
             $data[] = array(
-                $this->id,
-                $d[0],
-                $d[8],
-                $d[1],
-                $this->dateToTimestamp($d[7]),
-                $this->dateToTimestamp($d[7]) + $d[6],
-                $d[2],
-                $d[3],
-                '' // no notes
+                'telescope_id'  => $this->id,
+                'batch'         => $d[0],
+                'obs_id'        => $d[8],
+                'obs_target'    => $d[1],
+                'start'         => $this->dateToTimestamp($d[7]),
+                'end'           => $this->dateToTimestamp($d[7]) + $d[6],
+                'obs_ra'        => $d[2],
+                'obs_decl'      => $d[3],
+                'notes'         => '' // no notes
             );
 
         }

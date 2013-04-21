@@ -37,7 +37,7 @@ class Testing extends Model {
         $t = new $class_name;
 
         //return $t->determineLastBatchId();
-        return $t->getData();
+        return $t->getData(2450);
 
     }
 

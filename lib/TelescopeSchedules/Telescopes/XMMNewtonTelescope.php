@@ -40,7 +40,7 @@ class XMMNewtonTelescope extends Telescope {
      * @var mixed
      * @access protected
      */
-    private $data_url = 'http://xmm2.esac.esa.int/cgi-bin/obs_search/selectobs?prpobs=&revn=2455';
+    private $data_url = 'http://xmm2.esac.esa.int/cgi-bin/obs_search/selectobs?prpobs=&revn={0}';
 
     /**
      * getData function.
@@ -50,46 +50,56 @@ class XMMNewtonTelescope extends Telescope {
      * @access public
      * @return string
      */
-    public function getData() {
+    public function getData($batch) {
 
-        $scraper = new Scraper($this->data_url);
-        $table = $scraper->scrape()->match('/(<TABLE BORDER="2".*?<\/TABLE>)/s');
-
-        $rows = $scraper->matchAll('/<TR.*?>\s*(<TD.*?)<\/TR>/s', $table);
+        $last_batch = $this->determineLastBatchId();
 
         $data = array();
-        $d = array();
         $c = -1;
-        foreach($rows as $row) {
-            
-            if (strstr($row, '<TD COLSPAN="7" ALIGN="CENTER">')) {
+        while ($batch <= $last_batch) {
 
-                $d = array();
-                $c++;
+            $data_url = str_replace('{0}', $batch, $this->data_url);
 
-                $data[$c][] = $scraper->match('/<FONT.*?>\s+(.*?)\s+<\/FONT>/s', $row);
+            $scraper = new Scraper($data_url);
+            $table = $scraper->scrape()->match('/(<TABLE BORDER="2".*?<\/TABLE>)/s');
 
-            } elseif (strstr($row, '<TD ALIGN="CENTER"> <B>')) {
+            $rows = $scraper->matchAll('/<TR.*?>\s*(<TD.*?)<\/TR>/s', $table);
 
-                $fields = $scraper->matchAll('/<B>\s+(.*?)\s+<\/B>/s', $row);
-                foreach($fields as $field)
-                    $data[$c][] = $field;
+            foreach ($rows as $row) {
+                
+                if (strstr($row, '<TD COLSPAN="7" ALIGN="CENTER">')) {
+
+                    $c++;
+
+                    $data[$c][] = $batch;
+                    $data[$c][] = $scraper->match('/<FONT.*?>\s+(.*?)\s+<\/FONT>/s', $row);
+
+                } elseif (strstr($row, '<TD ALIGN="CENTER"> <B>')) {
+
+                    $fields = $scraper->matchAll('/<B>\s+(.*?)\s+<\/B>/s', $row);
+                    foreach($fields as $field)
+                        $data[$c][] = $field;
+
+                }
 
             }
+
+            $batch++;
 
         }
 
         foreach ($data as $k => $d) {
 
             $data[$k] = array(
-                $this->id,
-                '2455', // batch number from page
-                $d[0],
-                $d[1],
-                $this->dateToTimestamp($d[6]),
-                $this->dateToTimestamp($d[7]),
-                $d[2],
-                $d[3]
+                'telescope_id'  => $this->id,
+                'batch'         => $d[0],
+                'obs_id'        => $d[1],
+                'obs_target'    => $d[2],
+                'start'         => $this->dateToTimestamp($d[7]),
+                'end'           => $this->dateToTimestamp($d[8]),
+                'obs_ra'        => $d[3],
+                'obs_decl'      => $d[4],
+                'notes'         => ''
             );
 
         }
@@ -107,6 +117,9 @@ class XMMNewtonTelescope extends Telescope {
      * @return string
      */
     public function determineLastBatchId() {
+
+        $scraper = new Scraper('http://xmm2.esac.esa.int/cgi-bin/obs_search/selectobs');
+        return $scraper->scrape()->match('/Please select a Proposal, an Observation or a Revolution \(0014 - (.*?)\)/');
 
     }
 
