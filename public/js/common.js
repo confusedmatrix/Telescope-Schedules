@@ -21,7 +21,8 @@ $(document).ready(function() {
             $('#vis').html('');
 
             var xPagePadding = 450;
-            var height = 300;
+            var yPagePadding = 320;
+            var height = $(window).height() - yPagePadding;
             var width = $(window).width() - xPagePadding;
             var xPadding = 100;
             var yPadding = 30;
