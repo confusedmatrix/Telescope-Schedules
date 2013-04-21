@@ -2,72 +2,113 @@ $(document).ready(function() {
 
     d3.json('/data/telescope-events', function(error, data) {
 
+        var xPagePadding = 450;
         var height = 300;
-        var width = 800;
-        var xPadding = 20;
+        var width = $(window).width() - xPagePadding;
+        var xPadding = 100;
         var yPadding = 30;
 
         var events = data.events;
-        var telescopes = [];
-        for (var i in data.telescopes)
-            telescopes.push(data.telescopes[i].id);
+        var telescopeIds = [];
+        var telescopeNames = [];
+        for (var i in data.telescopes) {
+            telescopeIds.push(data.telescopes[i].id);
+            telescopeNames.push(data.telescopes[i].name);
+        }
 
         //var start = new Date(d3.min(events, function(d) { return d.start; })*1000);
         //var end = new Date(d3.max(events, function(d) { return d.end; })*1000);
-        var start = d3.time.day.offset(new Date(), -1);
-        var end = d3.time.day.offset(new Date(), 1);
+        var start = d3.time.day.offset(new Date(), -7);
+        var end = d3.time.day.offset(new Date(), 7);
 
         console.log(end);
 
         var xScale = d3.time.scale()
-                       //d3.scale.linear()
-                       //.domain([d3.min(events, function(d) { return d.start; }), d3.max(events, function(d) { return d.end; })])
                        .domain([start, end])
                        .range([0, width])
                        .clamp(true);
 
         var yScale = d3.scale.ordinal()
-                       .domain(telescopes)
+                       .domain(telescopeIds)
                        .rangeRoundBands([0, height]);
+
+        var colorScale = d3.scale.category20c();
 
         var xAxis = d3.svg.axis()
                       .scale(xScale)
                       .orient('bottom')
-                      //.ticks(d3.time.hours, 1)
-                      //.tickFormat(d3.time.format('%H:%M'))
                       .tickSize(1)
                       .tickPadding(10);
 
         var yAxis = d3.svg.axis()
                       .scale(yScale)
                       .orient('left')
-                      .tickSize(1)
+                      .tickValues(telescopeNames)
+                      .tickSize(0)
                       .tickPadding(10);
 
-        var svg = d3.select('.well')
+        var infopane = d3.select('#info-pane');
+
+        // draw svg
+        var svg = d3.select('#vis')
                     .append('svg')
                     .attr('height', height + yPadding)
                     .attr('width', width + xPadding);
 
-        svg.selectAll('.bar')
-           .data(events)
-         .enter().append('rect')
-           .attr('class', 'bar')
-           .attr('x', xPadding)
-           .attr('y', 0)
-           .attr('height', function(d) { return yScale.rangeBand() - 1; })
-           .attr('width', function(d) { return (xScale(new Date(d.end*1000)) - xScale(new Date(d.start*1000))) - 1; })
-           .attr('transform', function(d) { return 'translate(' + xScale(new Date(d.start*1000)) + ',' + yScale(d.telescope_id) + ')'; });
-
+        // draw x-axis
         svg.append('g')
            .attr('class', 'axis')
-           .attr('transform', 'translate(' + xPadding + ',' + (height) + ')')
+           .attr('transform', 'translate(' + xPadding + ',' + (height-1) + ')')
+           .style('fill', '#FFF')
            .call(xAxis);
 
+        // draw x-axis grid
+        svg.append('g')
+           .attr('class', 'grid')
+           .attr("transform", 'translate(' + xPadding + ',' + (height-1) + ')')
+           .call(xAxis.tickSize(-height, 0, 0).tickFormat(''));
+
+        // draw y-axis
         svg.append('g')
            .attr('class', 'axis')
            .attr('transform', 'translate(' + xPadding + ',0)')
+           .style('fill', '#FFF')
            .call(yAxis);
+
+        // draw data bars
+        var bars = svg.selectAll('.bar')
+                      .data(events)
+                    .enter().append('rect')
+                      .attr('class', 'bar')
+                      .attr('x', xPadding+1)
+                      .attr('y', 0)
+                      .attr('fill', function(d) { return colorScale(d.telescope_id); })
+                      .attr('height', function(d) { return yScale.rangeBand() - 1; })
+                      .attr('width', function(d) { return (xScale(new Date(d.end*1000)) - xScale(new Date(d.start*1000))) - 1; })
+                      .attr('transform', function(d) { return 'translate(' + xScale(new Date(d.start*1000)) + ',' + yScale(d.telescope_id) + ')'; });
+
+        // Actions
+        bars.on("mouseover", function(d) {
+            d3.select(this)
+              .transition()
+              .duration(200)
+              .style('opacity', 0.9);
+
+            infopane.html('Target: ' + d.obs_target + '<br />' +
+                          'RA: ' + d.obs_ra + '<br />' +
+                          'Decl: ' + d.obs_decl + '<br />' +
+                          'Start:' + d.start + '<br />' +
+                          'End:' + d.end + '<br /><br />' +
+                          d.notes);
+          })
+          .on('mouseout', function(d) {
+            d3.select(this)
+              .transition()
+              .duration(200)
+              .style('opacity', 1);
+
+            infopane.html('');
+        });
 
     });
 

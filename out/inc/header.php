@@ -12,7 +12,7 @@
 
 <body id="<?php echo $page('body_id', 'default'); ?>">
 
-  <div class="container">
+  <div class="container-fluid">
   
     <div id="header" class="page-header">
       <h1><?php echo $page('h1'); ?></h1>

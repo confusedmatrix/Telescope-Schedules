@@ -49,8 +49,8 @@ class Index extends Controller {
      */
     public function indexAction() {
         
-        $vars['content'] = '';
-        echo $this->view->render("index.php", $vars);
+        $this->page->body_id = 'home';
+        echo $this->view->render("home.php");
     
     }
 

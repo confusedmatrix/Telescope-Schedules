@@ -72,8 +72,17 @@ class Data extends Controller {
     public function telescopeEventsAction() {
         
         $json = array(
-            'telescopes' => $this->telescopes->getRows(),
-            'events'     => $this->telescope_events->getRows()
+            'telescopes' => $this->telescopes->getRows(
+                array(
+                    'where' => array(array('status', '=', 1))
+                )
+            ),
+            'events'     => $this->telescope_events->getRows(
+                array(
+                    'joins' => 'INNER JOIN telescopes ON telescopes.id = telescope_events.telescope_id', 
+                    'where' => array(array('status', '=', 1))
+                )
+            )
         );
 
         $vars['content'] = json_encode($json);
