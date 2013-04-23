@@ -97,6 +97,46 @@ class TelescopeEvents extends Model {
     }
 
     /**
+     * getRowsByDate function.
+     * 
+     * @access public
+     * @return void
+     */
+    public function getRowsByDate($start, $end) {
+        
+        $sql = 'SELECT telescope_id, obs_target, start, end, obs_ra, obs_decl, notes 
+                FROM ' . $this->table . '
+                INNER JOIN telescopes ON telescopes.id = telescope_events.telescope_id
+                WHERE status = ? 
+                AND (start >= ? AND start < ?) 
+                 OR (end >= ? AND end < ?) 
+                 OR (start < ? AND end > ?)';
+
+        $q = $this->database->prepare($sql);
+        $q->execute(array(1, $start, $end, $start, $end, $start, $end));
+        
+        $data = array();
+        while ($result = $q->fetch(\PDO::FETCH_ASSOC)) {
+            
+            $array = array();
+            foreach ($result as $key => $val) {
+               
+                $array[$key] = $val;
+                
+            }        
+                
+            $data[] = $array;
+        
+        }
+                    
+        if (!empty($data))
+            return $data;
+        
+        return array();
+    
+    }
+
+    /**
      * add function.
      * 
      * @access public

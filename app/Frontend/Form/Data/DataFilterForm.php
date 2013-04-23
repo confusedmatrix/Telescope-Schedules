@@ -47,7 +47,7 @@ class DataFilterForm extends Form {
     
         $this->start_date = new FormField('date', 'start_date', 'Start date');
         $this->start_date->setAttr('id', 'start_date');
-        $this->start_date->setValue(date('Y-m-d', time()));
+        $this->start_date->setValue(date('Y-m-d', time() - (60*60*24*7)));
         
         $this->end_date = new FormField('date', 'end_date', 'End date');
         $this->end_date->setAttr('id', 'end_date');

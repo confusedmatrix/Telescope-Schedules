@@ -20,7 +20,8 @@ class Data extends Controller {
      * @return void
      */
     public function __construct() {
-        
+            
+        $this->model = new Model\Data();
         $this->view = new View\Index();
         
     }
@@ -36,13 +37,8 @@ class Data extends Controller {
     
         parent::setContainer($container);
         
+        $this->model->setContainer($this->container);
         $this->view->setContainer($this->container);
-
-        $this->telescopes = new Model\Telescopes();
-        $this->telescopes->setContainer($this->container);
-
-        $this->telescope_events = new Model\TelescopeEvents();
-        $this->telescope_events->setContainer($this->container);
 
         header('Content-type: application/json; charset=utf-8');
     
@@ -57,7 +53,7 @@ class Data extends Controller {
      */
     public function telescopesAction() {
         
-        $vars['content'] = json_encode($this->telescopes->getRows());
+        $vars['content'] = $this->model->getTelescopesAsJSON();
         echo $this->view->render("ajax.php", $vars);
     
     }
@@ -71,33 +67,7 @@ class Data extends Controller {
      */
     public function telescopeEventsAction($start, $end) {
         
-        $json = array(
-            'telescopes' => $this->telescopes->getRows(
-                array(
-                    'select' => array('id', 'name', 'wavelengths'),
-                    'where' => array(array('status', '=', 1))
-                )
-            ),
-            'events'     => $this->telescope_events->getRows(
-                array(
-                    'select' => array('telescope_id', 'obs_target', 'start', 'end', 'obs_ra', 'obs_decl', 'notes'),
-                    'joins' => 'INNER JOIN telescopes ON telescopes.id = telescope_events.telescope_id', 
-                    'where' => array(
-                        array('status', '=', 1),
-                        array(
-                            array('start', '>=', $start),
-                            array('end', '>=', $end)
-                        ),
-                        array(
-                            array('start', '<', $start),
-                            array('end', '<', $end)  
-                        )
-                    )
-                )
-            )
-        );
-
-        $vars['content'] = json_encode($json);
+        $vars['content'] = $this->model->getTelescopeEventsAsJSON($start, $end);
         echo $this->view->render("ajax.php", $vars);
     
     }
