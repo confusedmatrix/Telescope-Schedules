@@ -10,3 +10,6 @@
 - Filter data by target name (autocomplete)
 - Filter data by wavelength
 - Filter data by telescope type (space-based / ground-based)
+- Make mobile freindly version of the application
+	- scroll to move view between schedules and timeframes
+- Search by bounding box - RA and Decl
