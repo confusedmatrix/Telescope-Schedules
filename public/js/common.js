@@ -105,39 +105,39 @@ $(document).ready(function() {
                           .attr('y', 0)
                           .attr('fill', function(d) { return colorScale(d.telescope_id); })
                           .attr('height', function(d) { return yScale.rangeBand() - 2; })
-                          .attr('width', function(d) { return Math.ceil(Math.abs((xScale(d.end) - xScale(d.start)) - 1)); })
-                          .attr('transform', function(d) { return 'translate(' + Math.ceil(xScale(d.start)) + ',' + yScale(d.telescope_id) + ')'; });
+                          .attr('width', 0)
+                          .attr('transform', function(d) { return 'translate(' + Math.ceil(xScale(d.start)) + ',' + yScale(d.telescope_id) + ')'; })
+                          .on("mouseover", function() {
+                            d3.select(this)
+                              .transition()
+                                .duration(200)
+                                .style('opacity', 0.8);
+                          })
+                          .on('mouseout', function() {
+                            d3.select(this)
+                              .transition()
+                                .duration(200)
+                                .style('opacity', 1);
+                          })
+                          .on("click", function(d) {
+                            infopane.html('');
 
-            // Actions
-            bars.on("mouseover", function() {
-                d3.select(this)
-                  .transition()
-                  .duration(200)
-                  .style('opacity', 0.8);
-              })
-              .on('mouseout', function() {
-                d3.select(this)
-                  .transition()
-                  .duration(200)
-                  .style('opacity', 1);
-            });
+                            d3.select(this)
+                              .transition()
+                                .duration(200)
+                                .style('opacity', 0.8);
 
-            bars.on("click", function(d) {
-                bars.style('opacity', 1);
-                infopane.html('');
-
-                d3.select(this)
-                  .transition()
-                  .duration(200)
-                  .style('opacity', 0.8);
-
-                infopane.html('<strong>Target:</strong> ' + d.obs_target + '<br />' +
-                              '<strong>RA:</strong> ' + d.obs_ra + '<br />' +
-                              '<strong>Decl:</strong> ' + d.obs_decl + '<br />' +
-                              '<strong>Start:</strong> ' + d.start + '<br />' +
-                              '<strong>End:</strong> ' + d.end + '<br /><br />' +
-                              d.notes);
-            });
+                            infopane.html('<strong>Target:</strong> ' + d.obs_target + '<br />' +
+                                          '<strong>RA:</strong> ' + d.obs_ra + '<br />' +
+                                          '<strong>Decl:</strong> ' + d.obs_decl + '<br />' +
+                                          '<strong>Start:</strong> ' + d.start + '<br />' +
+                                          '<strong>End:</strong> ' + d.end + '<br /><br />' +
+                                          d.notes);
+                          })
+                          .transition()
+                            .delay(function(d) { return d.telescope_id * 200; })
+                              .duration(500)
+                              .attrTween('width', function(d) { return d3.interpolate(0, Math.ceil(Math.abs((xScale(d.end) - xScale(d.start)) - 1))); });
 
         });
 
