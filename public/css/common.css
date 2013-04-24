@@ -1,6 +1,7 @@
 body#home {
 	background: url('../img/bg.jpg');
 	color: #FFF;
+	font-family: 'Titillium Web';
 }
 
 #header {
@@ -8,13 +9,11 @@ body#home {
 	padding-bottom: 0;
 }
 body#home .page-header h1 {
-	font-family: 'Titillium Web';
 	font-weight: 700;
 	font-size: 50px;
 	color: #FFF;
 }
 body#home .page-header small {
-	font-family: 'Titillium Web';
 	font-weight: 400;
 }
 

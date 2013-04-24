@@ -13,3 +13,4 @@
 - Make mobile freindly version of the application
 	- scroll to move view between schedules and timeframes
 - Search by bounding box - RA and Decl
+- Add data export/API functionality
