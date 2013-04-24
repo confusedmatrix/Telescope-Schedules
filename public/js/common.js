@@ -68,6 +68,10 @@ $(document).ready(function() {
                           .tickSize(0)
                           .tickPadding(10);
 
+            var tooltip = d3.select('#vis').append('div')
+                            .attr('id', 'tooltip')
+                            .style('opacity', 0);
+
             var infopane = d3.select('#info-pane');
 
             // draw svg
@@ -105,21 +109,32 @@ $(document).ready(function() {
                           .attr('y', 0)
                           .attr('fill', function(d) { return colorScale(d.telescope_id); })
                           .attr('transform', function(d) { return 'translate(' + Math.ceil(xScale(d.start)) + ',' + yScale(d.telescope_id) + ')'; })
-                          .on("mouseover", function() {
+                          .on("mouseover", function(d) {
                             d3.select(this)
                               .transition()
                                 .duration(200)
                                 .style('opacity', 0.8);
+
+                            tooltip.transition()
+                                   .duration(200)
+                                   .style('opacity', 0.9);
+                            tooltip.html(d.obs_target);
                           })
-                          .on('mouseout', function() {
+                          .on("mousemove", function(){
+                            tooltip.style('top', (event.pageY + 3) + 'px')
+                                   .style('left',(event.pageX + 3) + 'px');
+                          })
+                          .on('mouseout', function(d) {
                             d3.select(this)
                               .transition()
                                 .duration(200)
                                 .style('opacity', 1);
+
+                            tooltip.transition()
+                                   .duration(200)
+                                   .style('opacity', 0);
                           })
                           .on("click", function(d) {
-                            infopane.html('');
-
                             d3.select(this)
                               .transition()
                                 .duration(200)
@@ -133,8 +148,8 @@ $(document).ready(function() {
                                           d.notes);
                           })
                           .transition()
-                            .delay(function(d) { return d.telescope_id * 80; })
-                            .duration(1200)
+                            .delay(function(d) { return d.telescope_id * 60; })
+                            .duration(600)
                             .ease('elastic')
                             .attrTween('height', function(d) { return d3.interpolate(0, yScale.rangeBand() - 2); })
                             .attrTween('width', function(d) { return d3.interpolate(0, Math.ceil(Math.abs((xScale(d.end) - xScale(d.start)) - 1))); });
