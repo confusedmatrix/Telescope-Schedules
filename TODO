@@ -1,0 +1,12 @@
+- mix past/short-term/long-term schedules
+- build cron job to fetch data from sources
+	- fetch past observations and replace any short-term data
+	- fetch short-term data and replace and long-term data
+	- fetch long-term data
+- handle data revisions
+- Finish Hubble / Spitzer / Chandra scrapers
+- Link past observations to the data they collected (if possible)
+- Start gathering observation data for major ground-based telescopes
+- Filter data by target name (autocomplete)
+- Filter data by wavelength
+- Filter data by telescope type (space-based / ground-based)

@@ -104,8 +104,6 @@ $(document).ready(function() {
                           .attr('x', xPadding+1)
                           .attr('y', 0)
                           .attr('fill', function(d) { return colorScale(d.telescope_id); })
-                          .attr('height', function(d) { return yScale.rangeBand() - 2; })
-                          .attr('width', 0)
                           .attr('transform', function(d) { return 'translate(' + Math.ceil(xScale(d.start)) + ',' + yScale(d.telescope_id) + ')'; })
                           .on("mouseover", function() {
                             d3.select(this)
@@ -135,9 +133,11 @@ $(document).ready(function() {
                                           d.notes);
                           })
                           .transition()
-                            .delay(function(d) { return d.telescope_id * 200; })
-                              .duration(500)
-                              .attrTween('width', function(d) { return d3.interpolate(0, Math.ceil(Math.abs((xScale(d.end) - xScale(d.start)) - 1))); });
+                            .delay(function(d) { return d.telescope_id * 80; })
+                            .duration(1200)
+                            .ease('elastic')
+                            .attrTween('height', function(d) { return d3.interpolate(0, yScale.rangeBand() - 2); })
+                            .attrTween('width', function(d) { return d3.interpolate(0, Math.ceil(Math.abs((xScale(d.end) - xScale(d.start)) - 1))); });
 
         });
 
